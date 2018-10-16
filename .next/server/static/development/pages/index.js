@@ -258,19 +258,46 @@ function (_Component) {
       };
     }());
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleLookupSubmit", function () {
-      var asinArray = [];
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleLookupSubmit",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var asinArray, lookupParams;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              asinArray = [];
 
+              _this.props.lookup.map(function (item) {
+                asinArray.push(item.asin);
+              });
+
+              lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
+              console.log("lookupParams ", lookupParams);
+              _context3.next = 6;
+              return _this.props.stuffActions.lookupStuff(lookupParams);
+
+            case 6:
+              _this.props.stuff[0].map(function (item) {
+                console.log("lookup result ", item.ItemAttributes);
+              });
+
+            case 7:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    })));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "exportDirectlyToCsv", function () {
       _this.props.lookup.map(function (item) {
-        asinArray.push(item.asin);
+        item.searchDate = _this.state.thisMoment;
       });
 
-      var lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
-      console.log("lookupParams ", lookupParams);
-
-      _this.props.stuffActions.lookupStuff(lookupParams);
-
-      console.log("lookup result ", _this.props.stuff);
+      console.log("this.props.lookup in exportDirectlyToCsv", _this.props.lookup);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "renderMenu", function () {
@@ -287,7 +314,7 @@ function (_Component) {
         scrolling: true
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Modal"].Description, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Header"], null, "Selected Items to Export"), _this.renderLookupData())), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Modal"].Actions, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Button"], {
         primary: true,
-        onClick: _this.handleLookupSubmit
+        onClick: _this.exportDirectlyToCsv
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
         name: "download"
       }), "Download CSV")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(semantic_ui_react__WEBPACK_IMPORTED_MODULE_2__["Menu"].Menu, {

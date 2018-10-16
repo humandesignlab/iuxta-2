@@ -62,7 +62,7 @@ class Content extends Component {
     }
   };
 
-  handleLookupSubmit = () => {
+  handleLookupSubmit = async () => {
     let asinArray = [];
 
     this.props.lookup.map(item => {
@@ -71,9 +71,18 @@ class Content extends Component {
 
     const lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
     console.log("lookupParams ", lookupParams);
-    this.props.stuffActions.lookupStuff(lookupParams);
+    await this.props.stuffActions.lookupStuff(lookupParams);
 
-    console.log("lookup result ", this.props.stuff);
+    this.props.stuff[0].map(item => {
+      console.log("lookup result ", item.ItemAttributes);
+    });
+  };
+
+  exportDirectlyToCsv = () => {
+    this.props.lookup.map(item => {
+      item.searchDate = this.state.thisMoment;
+    });
+    console.log("this.props.lookup in exportDirectlyToCsv", this.props.lookup);
   };
 
   renderMenu = () => {
@@ -93,7 +102,7 @@ class Content extends Component {
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-              <Button primary onClick={this.handleLookupSubmit}>
+              <Button primary onClick={this.exportDirectlyToCsv}>
                 <Icon name="download" />
                 Download CSV
               </Button>
