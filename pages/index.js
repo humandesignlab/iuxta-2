@@ -18,8 +18,6 @@ class Index extends React.Component {
     console.log("this.props Index", this.props);
   }
 
-  componentWillUnmount() {}
-
   render() {
     return <Content />;
   }

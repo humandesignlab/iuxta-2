@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as stuffActions from "../store";
 import moment from "moment";
+import { CSVLink, CSVDownload } from "react-csv";
 
 class Content extends Component {
   state = {
@@ -33,17 +34,40 @@ class Content extends Component {
   };
 
   handleSearchSubmit = () => {
-    this.props.stuffActions.fetchStuff(this.state.inputValue);
-  };
-
-  updateProps = async () => {
-    const updatedProps = await this.props.stuffActions.updateProps(
-      this.props.stuff,
+    this.props.stuffActions.fetchStuff(
+      this.state.inputValue,
       this.props.lookup
     );
+  };
+
+  handleSimilarityLookupSubmit = () => {
+    this.props.stuffActions.fetchSimilarityLookupStuff(
+      this.state.inputValue,
+      this.props.lookup
+    );
+  };
+
+  updateLookupProps = async () => {
+    const updatedLookupProps = await this.props.stuffActions.updateLookupProps(
+      this.props.lookup,
+      this.props.stuff
+    );
     this.setState({
-      lookup: updatedProps
+      lookup: updatedLookupProps
     });
+  };
+
+  removeItemFromList = index => {
+    this.props.lookup.splice(index, 1);
+
+    this.updateLookupProps();
+    console.log(this.props);
+  };
+
+  addItemToList = (e, data) => {
+    this.props.lookup.push(data.value);
+    this.updateLookupProps();
+    console.log("this.props Content", this.props);
   };
 
   handleChange = async (e, data) => {
@@ -53,11 +77,11 @@ class Content extends Component {
           this.props.lookup.splice(i, 1);
         }
       }
-      this.updateProps();
+      this.updateLookupProps();
       console.log(this.props);
     } else {
       this.props.lookup.push(data.value);
-      this.updateProps();
+      this.updateLookupProps();
       console.log("this.props Content", this.props);
     }
   };
@@ -78,13 +102,6 @@ class Content extends Component {
     });
   };
 
-  exportDirectlyToCsv = () => {
-    this.props.lookup.map(item => {
-      item.searchDate = this.state.thisMoment;
-    });
-    console.log("this.props.lookup in exportDirectlyToCsv", this.props.lookup);
-  };
-
   renderMenu = () => {
     return (
       <Menu stackable className="fixed">
@@ -102,18 +119,36 @@ class Content extends Component {
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
-              <Button primary onClick={this.exportDirectlyToCsv}>
+              <CSVLink
+                data={this.props.lookup}
+                filename={"my-file.csv"}
+                className="ui primary button"
+                target="_blank"
+              >
                 <Icon name="download" />
                 Download CSV
-              </Button>
+              </CSVLink>
             </Modal.Actions>
           </Modal>
         </Menu.Item>
         <Menu.Menu position="right">
+          {/*<Menu.Item>
+            <Input
+              type="text"
+              placeholder="ASIN Similarity Lookup Search..."
+              action
+              onChange={this.updateInputValue}
+            >
+              <input />
+              <Button type="submit" onClick={this.handleSimilarityLookupSubmit}>
+                Search
+              </Button>
+            </Input>
+          </Menu.Item>*/}
           <Menu.Item>
             <Input
               type="text"
-              placeholder="Search..."
+              placeholder="Text Search..."
               action
               onChange={this.updateInputValue}
             >
@@ -129,9 +164,21 @@ class Content extends Component {
   };
 
   renderList = () => {
-    return this.props.lookup.length > 0
+    return this.props.lookup !== undefined && this.props.lookup.length > 0
       ? this.props.lookup.map((item, index) => {
-          return <List.Item key={index}>{item.title}</List.Item>;
+          return (
+            <List.Item key={index}>
+              <List.Content>
+                <List.Header>{item.ean}</List.Header>
+                <List.Description>{item.title}</List.Description>
+              </List.Content>
+              <Button
+                size="mini"
+                content="Remove"
+                onClick={this.removeItemFromList.bind(index)}
+              />
+            </List.Item>
+          );
         })
       : "Empty List";
   };
@@ -186,7 +233,7 @@ class Content extends Component {
             <List>{this.renderList()}</List>
           </Segment>
           <Segment>
-            <StuffList handleChange={this.handleChange} />
+            <StuffList addItemToList={this.addItemToList} />
           </Segment>
         </Responsive>
         <Responsive
@@ -203,7 +250,7 @@ class Content extends Component {
             </Grid.Column>
             <Grid.Column width={12}>
               <Segment>
-                <StuffList handleChange={this.handleChange} />
+                <StuffList addItemToList={this.addItemToList} />
               </Segment>
             </Grid.Column>
           </Grid>

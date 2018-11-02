@@ -28,34 +28,38 @@ class StuffList extends React.Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Add to List </Table.HeaderCell>
-            <Table.HeaderCell>ASIN</Table.HeaderCell>
+            {/*<Table.HeaderCell>ASIN</Table.HeaderCell>*/}
             <Table.HeaderCell>EAN</Table.HeaderCell>
             <Table.HeaderCell>Brand</Table.HeaderCell>
             <Table.HeaderCell>Title</Table.HeaderCell>
-            <Table.HeaderCell>ListPrice</Table.HeaderCell>
+            <Table.HeaderCell>Lowest New Price</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {this.props.stuff !== undefined && this.props.stuff.length > 1 ? (
             this.props.stuff.map((item, index) => {
               const newValue =
-                item.ItemAttributes.ListPrice !== undefined
-                  ? item.ItemAttributes.ListPrice.FormattedPrice
+                item.OfferSummary.LowestNewPrice !== undefined
+                  ? (
+                      parseInt(item.OfferSummary.LowestNewPrice.Amount) / 100
+                    ).toFixed(2)
                   : "No Price available";
               return (
                 <Table.Row key={index}>
                   <Table.Cell collapsing>
-                    <Checkbox
+                    <Button
+                      size="mini"
+                      content="Add"
                       value={{
                         asin: item.ASIN,
                         ean: item.ItemAttributes.EAN,
                         title: item.ItemAttributes.Title,
                         price: newValue
                       }}
-                      onChange={this.props.handleChange}
+                      onClick={this.props.addItemToList}
                     />
                   </Table.Cell>
-                  <Table.Cell>{item.ASIN}</Table.Cell>
+                  {/*<Table.Cell>{item.ASIN}</Table.Cell>*/}
                   <Table.Cell>{item.ItemAttributes.EAN}</Table.Cell>
                   <Table.Cell>{item.ItemAttributes.Brand}</Table.Cell>
                   <Table.Cell>{item.ItemAttributes.Title}</Table.Cell>

@@ -531,17 +531,20 @@ function (_App) {
 /*!******************!*\
   !*** ./store.js ***!
   \******************/
-/*! exports provided: actionTypes, reducer, receiveStuff, updateLookup, updateProps, fetchStuff, lookupStuff, initializeStore */
+/*! exports provided: actionTypes, reducer, reducerLookup, receiveSearchStuff, receiveLookupStuff, updateLookup, updateLookupProps, fetchStuff, fetchSimilarityLookupStuff, lookupStuff, initializeStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actionTypes", function() { return actionTypes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reducer", function() { return reducer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveStuff", function() { return receiveStuff; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reducerLookup", function() { return reducerLookup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSearchStuff", function() { return receiveSearchStuff; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveLookupStuff", function() { return receiveLookupStuff; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateLookup", function() { return updateLookup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProps", function() { return updateProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateLookupProps", function() { return updateLookupProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStuff", function() { return fetchStuff; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchSimilarityLookupStuff", function() { return fetchSimilarityLookupStuff; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lookupStuff", function() { return lookupStuff; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeStore", function() { return initializeStore; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
@@ -574,7 +577,10 @@ var initialState = {
 var actionTypes = {
   FETCH_STUFF: "FETCH_STUFF",
   RECEIVE_STUFF: "RECEIVE_STUFF",
-  UPDATE_STUFF: "UPDATE_STUFF"
+  UPDATE_STUFF: "UPDATE_STUFF",
+  FETCH_LOOKUP: "FETCH_LOOKUP",
+  RECEIVE_LOOKUP: "RECEIVE_LOOKUP",
+  UPDATE_LOOKUP: "UPDATE_LOOKUP"
 }; // REDUCERS
 
 var reducer = function reducer() {
@@ -597,26 +603,70 @@ var reducer = function reducer() {
       console.log("UPDATE_STUFF Action ", newState);
       return newState;
 
+    case actionTypes.FETCH_LOOKUP:
+      console.log("FETCH_LOOKUP Action");
+      return action;
+
+    case actionTypes.RECEIVE_LOOKUP:
+      newState = action;
+      console.log("RECEIVE_LOOKUP Action ", newState);
+      return newState;
+
+    case actionTypes.UPDATE_LOOKUP:
+      newState = action;
+      console.log("UPDATE_LOOKUP Action ", newState);
+      return newState;
+
+    default:
+      return state;
+  }
+};
+var reducerLookup = function reducerLookup() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState.lookup;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  var newState;
+
+  switch (action.type) {
+    case actionTypes.FETCH_LOOKUP:
+      console.log("FETCH_LOOKUP Action");
+      return action;
+
+    case actionTypes.RECEIVE_LOOKUP:
+      newState = action;
+      console.log("RECEIVE_LOOKUP Action ", newState);
+      return newState;
+
+    case actionTypes.UPDATE_LOOKUP:
+      newState = action;
+      console.log("UPDATE_LOOKUP Action ", newState);
+      return newState;
+
     default:
       return state;
   }
 }; // ACTIONS
 
-var receiveStuff = function receiveStuff(json) {
+var receiveSearchStuff = function receiveSearchStuff(jsonStuff, jsonLookup) {
   return {
     type: actionTypes.RECEIVE_STUFF,
-    stuff: json,
-    lookup: []
+    stuff: jsonStuff,
+    lookup: jsonLookup
   };
 };
-var updateLookup = function updateLookup(stuffProps, lookupProps) {
+var receiveLookupStuff = function receiveLookupStuff(json) {
   return {
-    type: actionTypes.UPDATE_STUFF,
-    stuff: stuffProps,
-    lookup: lookupProps
+    type: actionTypes.RECEIVE_LOOKUP,
+    lookup: json
   };
 };
-var updateProps = function updateProps(stuffProps, lookupProps) {
+var updateLookup = function updateLookup(lookupProps, stuffProps) {
+  return {
+    type: actionTypes.UPDATE_LOOKUP,
+    lookup: lookupProps,
+    stuff: stuffProps
+  };
+};
+var updateLookupProps = function updateLookupProps(lookupProps, stuffProps) {
   return (
     /*#__PURE__*/
     function () {
@@ -628,7 +678,7 @@ var updateProps = function updateProps(stuffProps, lookupProps) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return dispatch(updateLookup(stuffProps, lookupProps));
+                return dispatch(updateLookup(lookupProps, stuffProps));
 
               case 2:
               case "end":
@@ -644,7 +694,7 @@ var updateProps = function updateProps(stuffProps, lookupProps) {
     }()
   );
 };
-var fetchStuff = function fetchStuff(termino) {
+var fetchStuff = function fetchStuff(termino, lookupProps) {
   return (
     /*#__PURE__*/
     function () {
@@ -668,7 +718,7 @@ var fetchStuff = function fetchStuff(termino) {
               case 6:
                 searchJsonAm = _context2.sent;
                 _context2.next = 9;
-                return dispatch(receiveStuff(searchJsonAm));
+                return dispatch(receiveSearchStuff(searchJsonAm, lookupProps));
 
               case 9:
                 searchResult = _context2.sent;
@@ -687,34 +737,34 @@ var fetchStuff = function fetchStuff(termino) {
     }()
   );
 };
-var lookupStuff = function lookupStuff(termino) {
+var fetchSimilarityLookupStuff = function fetchSimilarityLookupStuff(termino, lookupProps) {
   return (
     /*#__PURE__*/
     function () {
       var _ref3 = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(dispatch) {
-        var lookupResAm, lookupJsonAm, lookupResult;
+        var searchResAm, searchJsonAm, searchResult;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 console.log("termino ", termino);
                 _context3.next = 3;
-                return fetch("http://localhost:3030/api/am-item-lookup?itemId=".concat(termino));
+                return fetch("http://localhost:3030/api/am-item-similarity-lookup/?itemId=".concat(termino));
 
               case 3:
-                lookupResAm = _context3.sent;
+                searchResAm = _context3.sent;
                 _context3.next = 6;
-                return lookupResAm.json();
+                return searchResAm.json();
 
               case 6:
-                lookupJsonAm = _context3.sent;
+                searchJsonAm = _context3.sent;
                 _context3.next = 9;
-                return dispatch(receiveStuff([lookupJsonAm]));
+                return dispatch(receiveSearchStuff(searchJsonAm, lookupProps));
 
               case 9:
-                lookupResult = _context3.sent;
+                searchResult = _context3.sent;
 
               case 10:
               case "end":
@@ -726,6 +776,49 @@ var lookupStuff = function lookupStuff(termino) {
 
       return function (_x3) {
         return _ref3.apply(this, arguments);
+      };
+    }()
+  );
+};
+var lookupStuff = function lookupStuff(termino) {
+  return (
+    /*#__PURE__*/
+    function () {
+      var _ref4 = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(dispatch) {
+        var lookupResAm, lookupJsonAm, lookupResult;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                console.log("termino ", termino);
+                _context4.next = 3;
+                return fetch("http://localhost:3030/api/am-item-lookup-csv?itemId=".concat(termino));
+
+              case 3:
+                lookupResAm = _context4.sent;
+                _context4.next = 6;
+                return lookupResAm.json();
+
+              case 6:
+                lookupJsonAm = _context4.sent;
+                _context4.next = 9;
+                return dispatch(receiveLookupStuff([lookupJsonAm]));
+
+              case 9:
+                lookupResult = _context4.sent;
+
+              case 10:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      return function (_x4) {
+        return _ref4.apply(this, arguments);
       };
     }()
   );
