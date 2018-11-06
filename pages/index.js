@@ -1,48 +1,32 @@
-import PropTypes from "prop-types";
-import { bindActionCreators } from "redux";
 import React from "react";
-import { connect } from "react-redux";
-import { receiveStuff, fetchStuff, lookupStuff } from "../store";
-import Content from "../components/Content";
-import * as stuffActions from "../store";
+import { NextAuth } from "next-auth/client";
+import Homemenu from "../components/Menu";
 
-class Index extends React.Component {
-  static getInitialProps({ reduxStore, req }) {
-    // reduxStore.dispatch(fetchStuff("papel"));
-    // reduxStore.dispatch(lookupStuff("B002K9KVH6"));
-
-    return {};
+export default class extends React.Component {
+  static async getInitialProps({ req }) {
+    return {
+      session: await NextAuth.init({ req })
+    };
   }
-
-  componentDidMount() {
-    console.log("this.props Index", this.props);
-  }
-
   render() {
-    return <Content />;
+    console.log("this.props ", this.props);
+    if (this.props.session.user) {
+      return (
+        <div>
+          <Homemenu
+            profileInfo={
+              this.props.session.user.name || this.props.session.user.email
+            }
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Homemenu profileInfo="You are not logged in." />
+          <p>You are not logged in.</p>
+        </div>
+      );
+    }
   }
 }
-
-Index.propTypes = {
-  stuffActions: PropTypes.object,
-  stuff: PropTypes.array,
-  lookup: PropTypes.array
-};
-
-function mapStateToProps(state) {
-  return {
-    stuff: state.stuff,
-    lookup: state.lookup
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    stuffActions: bindActionCreators(stuffActions, dispatch)
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Index);

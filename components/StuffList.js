@@ -54,7 +54,8 @@ class StuffList extends React.Component {
                         asin: item.ASIN,
                         ean: item.ItemAttributes.EAN,
                         title: item.ItemAttributes.Title,
-                        price: newValue
+                        price: newValue,
+                        addTimestamp: this.state.thisMoment
                       }}
                       onClick={this.props.addItemToList}
                     />

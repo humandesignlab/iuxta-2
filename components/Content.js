@@ -205,7 +205,7 @@ class Content extends Component {
                   <Table.Cell>{item.ean}</Table.Cell>
                   <Table.Cell>{item.title}</Table.Cell>
                   <Table.Cell>{item.price}</Table.Cell>
-                  <Table.Cell>{this.state.thisMoment}</Table.Cell>
+                  <Table.Cell>{item.addTimestamp}</Table.Cell>
                 </Table.Row>
               );
             })
