@@ -21,7 +21,7 @@ class StuffList extends React.Component {
   };
 
   renderData() {
-    console.log("this.props StuffList", this.props);
+    // console.log("this.props StuffList", this.props);
 
     return (
       <Table compact celled definition>

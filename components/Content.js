@@ -25,7 +25,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 class Content extends Component {
   state = {
     lookup: this.props.lookup,
-    thisMoment: moment().format("LLLL")
+    thisMoment: moment().format("DD-MM-YY_HH:mm")
   };
   updateInputValue = evt => {
     this.setState({
@@ -61,13 +61,13 @@ class Content extends Component {
     this.props.lookup.splice(index, 1);
 
     this.updateLookupProps();
-    console.log(this.props);
+    // console.log(this.props);
   };
 
   addItemToList = (e, data) => {
     this.props.lookup.push(data.value);
     this.updateLookupProps();
-    console.log("this.props Content", this.props);
+    // console.log("this.props Content", this.props);
   };
 
   handleChange = async (e, data) => {
@@ -78,11 +78,11 @@ class Content extends Component {
         }
       }
       this.updateLookupProps();
-      console.log(this.props);
+      // console.log(this.props);
     } else {
       this.props.lookup.push(data.value);
       this.updateLookupProps();
-      console.log("this.props Content", this.props);
+      // console.log("this.props Content", this.props);
     }
   };
 
@@ -94,12 +94,12 @@ class Content extends Component {
     });
 
     const lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
-    console.log("lookupParams ", lookupParams);
+    // console.log("lookupParams ", lookupParams);
     await this.props.stuffActions.lookupStuff(lookupParams);
 
-    this.props.stuff[0].map(item => {
-      console.log("lookup result ", item.ItemAttributes);
-    });
+    // this.props.stuff[0].map(item => {
+    //   console.log("lookup result ", item.ItemAttributes);
+    // });
   };
 
   renderMenu = () => {
@@ -121,7 +121,7 @@ class Content extends Component {
             <Modal.Actions>
               <CSVLink
                 data={this.props.lookup}
-                filename={"my-file.csv"}
+                filename={`amazon-data-${this.state.thisMoment}.csv`}
                 className="ui primary button"
                 target="_blank"
               >
@@ -184,7 +184,7 @@ class Content extends Component {
   };
 
   renderLookupData = () => {
-    console.log("this.props in renderLookupData Content ", this.props);
+    // console.log("this.props in renderLookupData Content ", this.props);
     return (
       <Table compact celled>
         <Table.Header>
