@@ -98,7 +98,7 @@ export const fetchStuff = (termino, lookupProps) => {
   return async dispatch => {
     console.log("termino ", termino);
     const searchResAm = await fetch(
-      `https://iuxta-api-xmvqtinxha.now.sh/api/am-item-search/?searchTerm=${termino}`
+      `https://iuxta-api.now.sh/api/am-item-search/?searchTerm=${termino}`
     );
     const searchJsonAm = await searchResAm.json();
     // const resWm = await fetch(`http://localhost:3030/wm?term=${termino}`);
@@ -113,7 +113,7 @@ export const fetchSimilarityLookupStuff = (termino, lookupProps) => {
   return async dispatch => {
     console.log("termino ", termino);
     const searchResAm = await fetch(
-      `https://iuxta-api-xmvqtinxha.now.sh/api/am-item-similarity-lookup/?itemId=${termino}`
+      `https://iuxta-api.now.sh/api/am-item-similarity-lookup/?itemId=${termino}`
     );
     const searchJsonAm = await searchResAm.json();
 
@@ -127,7 +127,7 @@ export const lookupStuff = termino => {
   return async dispatch => {
     console.log("termino ", termino);
     const lookupResAm = await fetch(
-      `https://iuxta-api-xmvqtinxha.now.sh/api/am-item-lookup-csv?itemId=${termino}`
+      `https://iuxta-api.now.sh/api/am-item-lookup-csv?itemId=${termino}`
     );
     const lookupJsonAm = await lookupResAm.json();
 
