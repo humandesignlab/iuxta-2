@@ -3,6 +3,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
 import { OperationHelper } from "apac";
 
+const apiUrl = process.env.REACT_APP_AM_SEARCH_URL;
+
 const initialState = {
   stuff: [],
   lookup: []
@@ -98,8 +100,9 @@ export const fetchStuff = (termino, lookupProps) => {
   return async dispatch => {
     console.log("termino ", termino);
     const searchResAm = await fetch(
-      `https://iuxta-api.now.sh/api/am-item-search/?searchTerm=${termino}`
+      `${apiUrl}/api/am-item-search-multipage/?searchTerm=${termino}`
     );
+    console.log("searchResAm ", searchResAm);
     const searchJsonAm = await searchResAm.json();
     // const resWm = await fetch(`http://localhost:3030/wm?term=${termino}`);
     // const jsonWm = await resWm.json();
@@ -113,7 +116,7 @@ export const fetchSimilarityLookupStuff = (termino, lookupProps) => {
   return async dispatch => {
     console.log("termino ", termino);
     const searchResAm = await fetch(
-      `https://iuxta-api.now.sh/api/am-item-similarity-lookup/?itemId=${termino}`
+      `${apiUrl}/api/am-item-similarity-lookup/?itemId=${termino}`
     );
     const searchJsonAm = await searchResAm.json();
 
@@ -127,7 +130,7 @@ export const lookupStuff = termino => {
   return async dispatch => {
     console.log("termino ", termino);
     const lookupResAm = await fetch(
-      `https://iuxta-api.now.sh/api/am-item-lookup-csv?itemId=${termino}`
+      `${apiUrl}/api/am-item-lookup-csv?itemId=${termino}`
     );
     const lookupJsonAm = await lookupResAm.json();
 
