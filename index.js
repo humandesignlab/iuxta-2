@@ -1,7 +1,7 @@
 // Include Next.js, Next Auth and a Next Auth config
 const next = require("next");
 const nextAuth = require("next-auth");
-const nextAuthConfig = require("./next-auth.config");
+const nextAuthConfig = require("./auth/next-auth.config");
 
 // Load environment variables from .env
 require("dotenv").load();

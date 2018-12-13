@@ -98,7 +98,7 @@ export const fetchStuff = (termino, lookupProps) => {
   return async dispatch => {
     console.log("termino ", termino);
     const searchResAm = await fetch(
-      `http://localhost:3030/api/am-item-search/?searchTerm=${termino}`
+      `http://localhost:3030/api/am-item-search-multipage/?searchTerm=${termino}`
     );
     const searchJsonAm = await searchResAm.json();
     // const resWm = await fetch(`http://localhost:3030/wm?term=${termino}`);

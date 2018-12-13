@@ -10,19 +10,12 @@ import { NextAuth } from "next-auth/client";
 
 class Index extends React.Component {
   static async getInitialProps({ reduxStore, req }) {
-    // reduxStore.dispatch(fetchStuff("papel"));
-    // reduxStore.dispatch(lookupStuff("B002K9KVH6"));
-
     return { session: await NextAuth.init({ req }) };
-  }
-
-  componentDidMount() {
-    console.log("this.props Index", this.props);
   }
 
   render() {
     if (this.props.session.user) {
-      return <Content />;
+      return <Content userId={this.props.session.user.id} />;
     } else {
       return <Homemenu profileInfo="You are not logged in." />;
     }
