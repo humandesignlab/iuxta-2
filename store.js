@@ -5,7 +5,9 @@ import { OperationHelper } from "apac";
 
 const initialState = {
   stuff: [],
-  lookup: []
+	lookup: [],
+	userLists: []
+	
 };
 
 export const actionTypes = {
@@ -14,7 +16,8 @@ export const actionTypes = {
   UPDATE_STUFF: "UPDATE_STUFF",
   FETCH_LOOKUP: "FETCH_LOOKUP",
   RECEIVE_LOOKUP: "RECEIVE_LOOKUP",
-  UPDATE_LOOKUP: "UPDATE_LOOKUP"
+	UPDATE_LOOKUP: "UPDATE_LOOKUP",
+	RECEIVE_LISTS_STUFF: "RECEIVE_LISTS_STUFF"
 };
 
 // REDUCERS
@@ -42,6 +45,10 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_LOOKUP:
       newState = action;
       console.log("UPDATE_LOOKUP Action ", newState);
+			return newState;
+			case actionTypes.RECEIVE_LISTS_STUFF:
+      newState = action;
+      console.log("RECEIVE_LISTS_STUFF Action ", newState);
       return newState;
     default:
       return state;
@@ -76,6 +83,15 @@ export const receiveSearchStuff = (jsonStuff, jsonLookup) => {
   };
 };
 
+export const receiveListsStuff = json => {
+	return {
+		type: actionTypes.RECEIVE_LISTS_STUFF,
+		userLists: json,
+		stuff: initialState.stuff,
+		lookup: initialState.lookup
+	}
+}
+
 export const receiveLookupStuff = json => {
   return { type: actionTypes.RECEIVE_LOOKUP, lookup: json };
 };
@@ -108,6 +124,18 @@ export const fetchStuff = (termino, lookupProps) => {
     );
   };
 };
+
+export const fetchLists = (userId) => {
+	return async dispatch => {
+		const getLists = await fetch(
+			`http://localhost:3030/api/get-list/?usrId=${userId}`
+		);
+		const listsJson = await getLists.json();
+		await dispatch(
+			receiveListsStuff(listsJson)
+		);
+	}
+}
 
 export const fetchSimilarityLookupStuff = (termino, lookupProps) => {
   return async dispatch => {

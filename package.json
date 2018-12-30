@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "apac": "^3.0.2",
+    "axios": "^0.18.0",
     "connect-mongo": "^2.0.1",
     "cors": "^2.8.4",
     "dotenv": "^6.1.0",

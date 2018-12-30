@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Router from "next/router";
 import {
 	Responsive,
 	Container,
@@ -13,6 +14,7 @@ import {
 	Modal,
 	Table
 } from "semantic-ui-react";
+import Mainenu from "./Menu";
 import StuffList from "./StuffList";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -20,13 +22,15 @@ import { bindActionCreators } from "redux";
 import * as stuffActions from "../store";
 import moment from "moment";
 import { CSVLink, CSVDownload } from "react-csv";
+import axios from 'axios';
 
 class Content extends Component {
 	state = {
 		lookup: this.props.lookup,
 		thisMoment: moment().format("LLLL"),
 		listName: '',
-		userId: this.props.userId
+		userId: this.props.userId.id,
+		modalOpen: false
 	};
 	updateInputValue = evt => {
 		this.setState({
@@ -100,50 +104,38 @@ class Content extends Component {
 	};
 
 	saveList = () => {
-		const newList = { 
-			userId: this.state.userId, 
-			description: this.state.listName, 
-			date: this.state.thisMoment, 
-			list: this.props.lookup 
+		const newList = {
+			userId: this.props.userId.id,
+			description: this.state.listName,
+			date: this.state.thisMoment,
+			listArray: this.props.lookup
 		};
+		axios.post('http://localhost:3030/api/post-list', newList)
+			.then(function (response) {
+				console.log('response ', response);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 		console.log('data ', newList);
+		this.handleClose();
 	}
 
 	setName = evt => {
 		this.setState({ listName: evt.target.value });
 	}
 
+	handleOpen = () => this.setState({ modalOpen: true })
+	handleClose = () => {
+		this.setState({ modalOpen: false });
+		Router.push('/');
+	}
+
 	renderMenu = () => {
 		return (
 			<Menu stackable className="fixed">
 				<Menu.Item className="item">Iuxta</Menu.Item>
-				<Menu.Item>
-					<Modal
-						size="large"
-						trigger={<Button>Save List or Export Data</Button>}
-					>
-						<Modal.Header>Export Data</Modal.Header>
-						<Modal.Content image scrolling>
-							<Modal.Description>
-								<Header>Selected Items to Export</Header>
-								{this.renderLookupData()}
-							</Modal.Description>
-						</Modal.Content>
-						<Modal.Actions>
-							<Input placeholder='List description' onChange={this.setName} />
-							<Button onClick={this.saveList}>Save List</Button>
-							<CSVLink
-								data={this.props.lookup}
-								filename={"my-file.csv"}
-								className="ui primary button"
-								target="_blank"
-							>
-								<Icon name="download" />
-								Download CSV
-              </CSVLink>
-						</Modal.Actions>
-					</Modal>
-				</Menu.Item>
+
 				<Menu.Menu position="right">
 					{/*<Menu.Item>
             <Input
@@ -159,22 +151,28 @@ class Content extends Component {
             </Input>
           </Menu.Item>*/}
 					<Menu.Item>
-						<Input
-							type="text"
-							placeholder="Text Search..."
-							action
-							onChange={this.updateInputValue}
-						>
-							<input />
-							<Button type="submit" onClick={this.handleSearchSubmit}>
-								Search
-              </Button>
-						</Input>
+
 					</Menu.Item>
 				</Menu.Menu>
 			</Menu>
 		);
 	};
+
+	renderSearchField = () => {
+		return (
+			<Input
+				type="text"
+				placeholder="Text Search..."
+				action
+				onChange={this.updateInputValue}
+			>
+				<input />
+				<Button type="submit" onClick={this.handleSearchSubmit}>
+					Search
+              </Button>
+			</Input>
+		)
+	}
 
 	renderList = () => {
 		return this.props.lookup !== undefined && this.props.lookup.length > 0
@@ -231,7 +229,40 @@ class Content extends Component {
 		);
 	};
 
+	renderSaveButton = () => {
+		return (
+			<Modal
+				size="large"
+				trigger={<Button onClick={this.handleOpen}>Save List or Export Data</Button>}
+				open={this.state.modalOpen}
+				onClose={this.handleClose}
+			>
+				<Modal.Header>Export Data</Modal.Header>
+				<Modal.Content image scrolling>
+					<Modal.Description>
+						<Header>Selected Items to Export</Header>
+						{this.renderLookupData()}
+					</Modal.Description>
+				</Modal.Content>
+				<Modal.Actions>
+					<Input placeholder='List description' onChange={this.setName} />
+					<Button onClick={this.saveList}>Save List</Button>
+					<CSVLink
+						data={this.props.lookup}
+						filename={"my-file.csv"}
+						className="ui primary button"
+						target="_blank"
+					>
+						<Icon name="download" />
+						Download CSV
+              </CSVLink>
+				</Modal.Actions>
+			</Modal>
+		)
+	}
+
 	render() {
+		console.log(this.props);
 		return (
 			<div>
 				<Responsive
@@ -240,6 +271,7 @@ class Content extends Component {
 					maxWidth={991}
 					style={{ marginTop: "140px" }}
 				>
+					<Mainenu />
 					{this.renderMenu()}
 					<Segment>
 						<List>{this.renderList()}</List>
@@ -253,11 +285,18 @@ class Content extends Component {
 					{...Responsive.onlyComputer}
 					style={{ marginTop: "60px" }}
 				>
+				<Mainenu profileInfo={this.props.userId.name}/>
+						<Segment>
+							<div style={{width:'300px', margin: '40px auto'}}>
+								{this.renderSearchField()}
+							</div>							
+						</Segment>
+
 					<Grid columns="equal">
-						{this.renderMenu()}
 						<Grid.Column>
 							<Segment>
 								<List ordered>{this.renderList()}</List>
+								{this.renderSaveButton()}
 							</Segment>
 						</Grid.Column>
 						<Grid.Column width={12}>

@@ -8,21 +8,21 @@ import Homemenu from "../components/Menu";
 import * as stuffActions from "../store";
 import { NextAuth } from "next-auth/client";
 
-class Index extends React.Component {
+class SearchAm extends React.Component {
   static async getInitialProps({ reduxStore, req }) {
     return { session: await NextAuth.init({ req }) };
   }
 
   render() {
     if (this.props.session.user) {
-      return <Content userId={this.props.session.user.id} />;
+      return <Content userId={this.props.session.user} />;
     } else {
       return <Homemenu profileInfo="You are not logged in." />;
     }
   }
 }
 
-Index.propTypes = {
+SearchAm.propTypes = {
   stuffActions: PropTypes.object,
   stuff: PropTypes.array,
   lookup: PropTypes.array
@@ -44,4 +44,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Index);
+)(SearchAm);
