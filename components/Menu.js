@@ -17,7 +17,7 @@ class Homemenu extends Component {
   renderMenu = () => {
     if (this.props.profileInfo !== "You are not logged in.") {
       return (
-        <Menu stackable className="fixed">
+        <Menu className="fixed">
           <Menu.Item className="item">Iuxta</Menu.Item>
           <Menu.Item>
             <Link href="/">
@@ -36,7 +36,7 @@ class Homemenu extends Component {
       );
     } else {
       return (
-        <Menu stackable className="fixed">
+        <Menu className="fixed">
           <Menu.Item className="item">Iuxta</Menu.Item>
           <Menu.Item>
             <Link href="/auth">

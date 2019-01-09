@@ -9,15 +9,15 @@ import UserLists from "../components/UserLists";
 import * as stuffActions from "../store";
 
  class Index extends React.Component {
-  static async getInitialProps({ req }) {
+  static async getInitialProps({ pathname, req }) {
     return {
-      session: await NextAuth.init({ req })
+			session: await NextAuth.init({ req }),
+			pathname: req && req.url || pathname
     };
 	}
 	
 	
   render() {
-		console.log("this.props ", this.props);
 		let { session } = this.props;
     if (session.user) {
       return (

@@ -1,12 +1,7 @@
 import React from "react";
 import {
   Table,
-  Menu,
-  Dropdown,
-  Input,
-  Button,
-  Form,
-  Checkbox
+  Button
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -21,8 +16,6 @@ class StuffList extends React.Component {
   };
 
   renderData() {
-    console.log("this.props StuffList", this.props);
-
     return (
       <Table compact celled definition>
         <Table.Header>

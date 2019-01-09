@@ -5,13 +5,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as stuffActions from "../store";
 import { Table, Button } from 'semantic-ui-react'
+import ListTableModal from './ListTableModal';
 
-const tableData = [
-	{ name: 'John', age: 15, gender: 'Male' },
-	{ name: 'Amber', age: 40, gender: 'Female' },
-	{ name: 'Leslie', age: 25, gender: 'Female' },
-	{ name: 'Ben', age: 70, gender: 'Male' },
-]
 
 class UserLists extends Component {
 	state = {
@@ -44,7 +39,6 @@ class UserLists extends Component {
 	}
 
 	render() {
-		console.log('this.props UserLists component ', this.props);
 		const { column, direction } = this.state;
 		const data = this.props.userLists;
 		return (
@@ -63,18 +57,17 @@ class UserLists extends Component {
 						>
 							Description
             </Table.HeaderCell>
-						
+
 						<Table.HeaderCell></Table.HeaderCell>
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{_.map(data, ({ date, description }, key) => (
+					{_.map(data, ({ date, description, _id }, key) => (
 						<Table.Row key={key}>
 							<Table.Cell>{date}</Table.Cell>
 							<Table.Cell>{description}</Table.Cell>
 							<Table.Cell>
-								<Button>Edit</Button>
-								<Button>Download CSV</Button>
+								<ListTableModal userId={this.props.userId} listId={_id} userLists={this.props.userLists}/>
 							</Table.Cell>
 						</Table.Row>
 					))}
