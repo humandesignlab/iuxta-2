@@ -35,13 +35,6 @@ class Content extends Component {
 		);
 	};
 
-	handleSimilarityLookupSubmit = () => {
-		this.props.stuffActions.fetchSimilarityLookupStuff(
-			this.state.inputValue,
-			this.props.lookup
-		);
-	};
-
 	updateLookupProps = async () => {
 		const updatedLookupProps = await this.props.stuffActions.updateLookupProps(
 			this.props.lookup,

@@ -91,8 +91,14 @@ export const receiveListsStuff = json => {
 	}
 }
 
-export const receiveLookupStuff = json => {
-  return { type: actionTypes.RECEIVE_LOOKUP, lookup: json };
+export const receiveupdateListStuff = (json, userListProps) => {
+  return { 
+		type: actionTypes.RECEIVE_LOOKUP, 
+		lookup: json,
+		userLists: userListProps,
+		stuff: initialState.stuff
+
+	};
 };
 
 export const updateLookup = (lookupProps, stuffProps) => {
@@ -136,29 +142,16 @@ export const fetchLists = (userId) => {
 	}
 }
 
-export const fetchSimilarityLookupStuff = (termino, lookupProps) => {
+export const updateListStuff = (termino, userListProps) => {
   return async dispatch => {
     console.log("termino ", termino);
-    const searchResAm = await fetch(
-      `http://localhost:3030/api/am-item-similarity-lookup/?itemId=${termino}`
+    const updateResAm = await fetch(
+      `http://localhost:3030/api/am-item-lookup-asin?itemId=${termino}`
     );
-    const searchJsonAm = await searchResAm.json();
+    const updateJsonAm = await updateResAm.json();
 
-    const searchResult = await dispatch(
-      receiveSearchStuff(searchJsonAm, lookupProps)
-    );
-  };
-};
-
-export const lookupStuff = termino => {
-  return async dispatch => {
-    console.log("termino ", termino);
-    const lookupResAm = await fetch(
-      `http://localhost:3030/api/am-item-lookup-csv?itemId=${termino}`
-    );
-    const lookupJsonAm = await lookupResAm.json();
-
-    const lookupResult = await dispatch(receiveLookupStuff([lookupJsonAm]));
+    await dispatch(
+			receiveupdateListStuff([updateJsonAm], userListProps));
   };
 };
 

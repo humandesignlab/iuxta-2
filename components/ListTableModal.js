@@ -13,6 +13,8 @@ import { bindActionCreators } from "redux";
 import * as stuffActions from "../store";
 import { CSVLink, CSVDownload } from "react-csv";
 import axios from 'axios';
+import moment from "moment";
+import Router from 'next/router';
 
 class ListTableModal extends Component {
 	state = {
@@ -20,7 +22,8 @@ class ListTableModal extends Component {
 		listName: '',
 		userId: this.props.userId.id,
 		modalOpen: false,
-		listData: []
+		listData: [],
+		thisMoment: moment().format("LLLL")
 	};
 
 	setName = evt => {
@@ -40,10 +43,10 @@ class ListTableModal extends Component {
 			listArray: this.props.lookup
 		};
 		axios.post('http://localhost:3030/api/post-list', newList)
-			.then(function (response) {
+			.then(response => {
 				console.log('response ', response);
 			})
-			.catch(function (error) {
+			.catch(error => {
 				console.log(error);
 			});
 		console.log('data ', newList);
@@ -56,6 +59,7 @@ class ListTableModal extends Component {
 				<Table.Header>
 					<Table.Row>
 						<Table.HeaderCell />
+						<Table.HeaderCell>ASIN</Table.HeaderCell>
 						<Table.HeaderCell>EAN</Table.HeaderCell>
 						<Table.HeaderCell>Title</Table.HeaderCell>
 						<Table.HeaderCell>Price</Table.HeaderCell>
@@ -68,6 +72,7 @@ class ListTableModal extends Component {
 							return (
 								<Table.Row key={index}>
 									<Table.Cell>{index + 1}</Table.Cell>
+									<Table.Cell>{item.asin}</Table.Cell>
 									<Table.Cell>{item.ean}</Table.Cell>
 									<Table.Cell>{item.title}</Table.Cell>
 									<Table.Cell>{item.price}</Table.Cell>
@@ -91,6 +96,7 @@ class ListTableModal extends Component {
 				<Table.Header>
 					<Table.Row>
 						<Table.HeaderCell />
+						<Table.HeaderCell>ASIN</Table.HeaderCell>
 						<Table.HeaderCell>EAN</Table.HeaderCell>
 						<Table.HeaderCell>Title</Table.HeaderCell>
 						<Table.HeaderCell>Price</Table.HeaderCell>
@@ -109,6 +115,7 @@ class ListTableModal extends Component {
 									<Table.Body key={listItemIndex}>
 										<Table.Row >
 											<Table.Cell>{listItemIndex + 1}</Table.Cell>
+											<Table.Cell>{listItem.asin}</Table.Cell>
 											<Table.Cell>{listItem.ean}</Table.Cell>
 											<Table.Cell>{listItem.title}</Table.Cell>
 											<Table.Cell>{listItem.price}</Table.Cell>
@@ -164,6 +171,24 @@ class ListTableModal extends Component {
 		);
 	}
 
+	updateValues = async (e, data) => {
+		const asinArray = data.value.map(item => {
+			return item.asin;
+		});
+		const lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
+		await this.props.stuffActions.updateListStuff(lookupParams, this.props.userLists);
+		axios.post(`http://localhost:3030/api/update-list?listId=${this.props.listId}`, this.props.lookup)
+			.then(response => {
+				console.log('response ', response);
+				return response;
+			})
+			.catch(error => {
+				console.log(error);
+			});
+			window.location.href = '/';
+		console.log('this.props in updateValues ', this.props);
+	}
+
 	savedListModal = (listId) => {
 		return (
 			<Modal
@@ -174,14 +199,17 @@ class ListTableModal extends Component {
 				open={this.state.modalOpen}
 				onClose={this.handleClose}
 			>
-				<Modal.Header>Export Data</Modal.Header>
+				<Modal.Header>{this.state.listName}</Modal.Header>
 				<Modal.Content image scrolling>
 					<Modal.Description>
-						<Header>Selected Items to Export</Header>
 						{this.renderSavedListData(listId)}
 					</Modal.Description>
 				</Modal.Content>
 				<Modal.Actions>
+					<Button
+						value={this.state.listData}
+						onClick={this.updateValues}
+					>update</Button>
 					<CSVLink
 						data={this.state.listData}
 						filename={`${this.state.listName.replace(' ', '-')}.csv`}

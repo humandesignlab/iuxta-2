@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as stuffActions from "../store";
-import { Table, Button } from 'semantic-ui-react'
+import { Table, Segment, Button } from 'semantic-ui-react'
 import ListTableModal from './ListTableModal';
 
 
@@ -41,39 +41,46 @@ class UserLists extends Component {
 	render() {
 		const { column, direction } = this.state;
 		const data = this.props.userLists;
-		return (
-			<Table sortable celled fixed>
-				<Table.Header>
-					<Table.Row>
-						<Table.HeaderCell
-							sorted={column === 'date' ? direction : null}
-							onClick={this.handleSort('date')}
-						>
-							Date
-            </Table.HeaderCell>
-						<Table.HeaderCell
-							sorted={column === 'description' ? direction : null}
-							onClick={this.handleSort('description')}
-						>
-							Description
-            </Table.HeaderCell>
-
-						<Table.HeaderCell></Table.HeaderCell>
-					</Table.Row>
-				</Table.Header>
-				<Table.Body>
-					{_.map(data, ({ date, description, _id }, key) => (
-						<Table.Row key={key}>
-							<Table.Cell>{date}</Table.Cell>
-							<Table.Cell>{description}</Table.Cell>
-							<Table.Cell>
-								<ListTableModal userId={this.props.userId} listId={_id} userLists={this.props.userLists}/>
-							</Table.Cell>
+		if (this.props.userLists !== undefined && this.props.userLists.length > 0) {
+			return (
+				<Table sortable celled fixed>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell
+								sorted={column === 'date' ? direction : null}
+								onClick={this.handleSort('date')}
+							>
+								Date
+							</Table.HeaderCell>
+							<Table.HeaderCell
+								sorted={column === 'description' ? direction : null}
+								onClick={this.handleSort('description')}
+							>
+								Description
+							</Table.HeaderCell>
+	
+							<Table.HeaderCell></Table.HeaderCell>
 						</Table.Row>
-					))}
-				</Table.Body>
-			</Table>
-		)
+					</Table.Header>
+					<Table.Body>
+						{_.map(data, ({ date, description, _id }, key) => (
+							<Table.Row key={key}>
+								<Table.Cell>{date}</Table.Cell>
+								<Table.Cell>{description}</Table.Cell>
+								<Table.Cell>
+									<ListTableModal userId={this.props.userId} listId={_id} userLists={this.props.userLists}/>
+								</Table.Cell>
+							</Table.Row>
+						))}
+					</Table.Body>
+				</Table>
+			)
+		} else {
+			return (
+				<Segment>You don't have any saved lists yet. Create one with Am List Maker and save it!</Segment>
+			)
+		}
+		
 	}
 }
 
