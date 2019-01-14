@@ -6,7 +6,9 @@ import {
 	Button,
 	Header,
 	Icon,
-	Modal
+	Modal,
+	Loader,
+	Dimmer
 } from "semantic-ui-react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -23,7 +25,8 @@ class ListTableModal extends Component {
 		userId: this.props.userId.id,
 		modalOpen: false,
 		listData: [],
-		thisMoment: moment().format("LLLL")
+		thisMoment: moment().format("LLLL"),
+		loaderActive: false
 	};
 
 	setName = evt => {
@@ -44,13 +47,19 @@ class ListTableModal extends Component {
 		};
 		axios.post('http://localhost:3030/api/post-list', newList)
 			.then(response => {
-				console.log('response ', response);
+				return response;
+			})
+			.then(response => {
+				if (response) {
+					Router.push('/');
+				}
 			})
 			.catch(error => {
 				console.log(error);
 			});
-		console.log('data ', newList);
 		this.handleClose();
+
+
 	}
 
 	renderLookupData = () => {
@@ -106,7 +115,7 @@ class ListTableModal extends Component {
 
 				{this.props.userLists !== undefined && this.props.userLists.length > 0 ? (
 					this.props.userLists.map((item, index) => {
-						
+
 						if (listId === item._id) {
 							this.state.listName = item.description;
 							this.state.listData = item.listArray;
@@ -172,6 +181,7 @@ class ListTableModal extends Component {
 	}
 
 	updateValues = async (e, data) => {
+		this.setState({loaderActive: true});
 		const asinArray = data.value.map(item => {
 			return item.asin;
 		});
@@ -179,14 +189,18 @@ class ListTableModal extends Component {
 		await this.props.stuffActions.updateListStuff(lookupParams, this.props.userLists);
 		axios.post(`http://localhost:3030/api/update-list?listId=${this.props.listId}`, this.props.lookup)
 			.then(response => {
-				console.log('response ', response);
 				return response;
+			})
+			.then(response => {
+				if (response) {
+					this.setState({loaderActive: false});
+					window.location.href = '/';
+				}
 			})
 			.catch(error => {
 				console.log(error);
 			});
-			window.location.href = '/';
-		console.log('this.props in updateValues ', this.props);
+		
 	}
 
 	savedListModal = (listId) => {
@@ -199,6 +213,9 @@ class ListTableModal extends Component {
 				open={this.state.modalOpen}
 				onClose={this.handleClose}
 			>
+				<Dimmer active={this.state.loaderActive}>
+					<Loader />
+				</Dimmer>
 				<Modal.Header>{this.state.listName}</Modal.Header>
 				<Modal.Content image scrolling>
 					<Modal.Description>

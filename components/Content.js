@@ -48,7 +48,6 @@ class Content extends Component {
 	removeItemFromList = index => {
 		this.props.lookup.splice(index, 1);
 		this.updateLookupProps();
-		console.log(this.props);
 	};
 
 	addItemToList = (e, data) => {
@@ -123,7 +122,6 @@ class Content extends Component {
 	};
 
 	render() {
-		console.log('Content props ', this.props);
 		return (
 			<Container
 				style={{ marginTop: "60px" }}
