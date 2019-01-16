@@ -55,7 +55,7 @@ export default class extends React.Component {
   }
 
   render() {
-    if (this.props.session && this.props.session.user) {
+    if (this.props.session.user) {
       return (
         <div>
           <Container>

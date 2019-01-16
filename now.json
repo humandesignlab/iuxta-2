@@ -1,6 +1,7 @@
 {
 	"version": 2,
 	"name": "nextjs",
+	"alias": ["my-iuxta.com"],
 	"builds": [
 			{ "src": "package.json", "use": "@now/next" }
 	]
