@@ -1,6 +1,6 @@
 {
   "name": "iuxta-2",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "dev": "NODE_ENV=development node index.js",
     "build": "next build",
