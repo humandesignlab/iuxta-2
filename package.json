@@ -1,5 +1,5 @@
 {
-  "name": "with-redux",
+  "name": "iuxta-2",
   "version": "1.0.0",
   "scripts": {
     "dev": "NODE_ENV=development node index.js",
