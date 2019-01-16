@@ -10,12 +10,12 @@
  * Environment variables for this example:
  *
  * FACEBOOK_ID=
- * FACEBOOK_SECRET= */
-const GOOGLE_ID='741517036786-mad416oslcq5gmi8njbtie99uph8269m.apps.googleusercontent.com';
-const GOOGLE_SECRET='Ug8JhYp9cyexv8jkgIHBFN5T';
- /* TWITTER_KEY=
+ * FACEBOOK_SECRET=
+ * GOOGLE_ID=
+ * GOOGLE_SECRET=
+ * TWITTER_KEY=
  * TWITTER_SECRET=
- /*
+ *
  * If you wish, you can put these in a `.env` to seperate your environment
  * specific configuration from your code.
  **/
@@ -49,7 +49,7 @@ module.exports = () => {
     });
   }
 
-  if (GOOGLE_ID && GOOGLE_SECRET) {
+  if (process.env.GOOGLE_ID && process.env.GOOGLE_SECRET) {
     providers.push({
       providerName: "Google",
       providerOptions: {
@@ -57,8 +57,8 @@ module.exports = () => {
       },
       Strategy: require("passport-google-oauth").OAuth2Strategy,
       strategyOptions: {
-        clientID: GOOGLE_ID,
-        clientSecret: GOOGLE_SECRET
+        clientID: process.env.GOOGLE_ID,
+        clientSecret: process.env.GOOGLE_SECRET
       },
       getProfile(profile) {
         // Normalize profile into one with {id, name, email} keys

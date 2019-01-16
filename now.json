@@ -1,8 +1,22 @@
 {
 	"version": 2,
 	"name": "nextjs",
-	"alias": ["iuxta-app2.now.sh"],
+	"env": {
+		"MONGO_URI": "@iuxta-2-mongo-uri",
+		"GOOGLE_ID": "@iuxta-2-google-id ",
+		"GOOGLE_SECRET": "@iuxta-2-google-secret ",
+		"EMAIL_FROM": "@iuxta-2-email-from ",
+		"EMAIL_SERVER": "@iuxta-2-email-server ",
+		"EMAIL_PORT": "@iuxta-2-email-port",
+		"EMAIL_USERNAME": "@iuxta-2-email-username "
+	},
+	"alias": [
+		"iuxta-app2.now.sh"
+	],
 	"builds": [
-			{ "src": "package.json", "use": "@now/next" }
+		{
+			"src": "package.json",
+			"use": "@now/next"
+		}
 	]
 }
