@@ -11,8 +11,8 @@
  *
  * FACEBOOK_ID=
  * FACEBOOK_SECRET= */
-GOOGLE_ID=741517036786-mad416oslcq5gmi8njbtie99uph8269m.apps.googleusercontent.com
-GOOGLE_SECRET=Ug8JhYp9cyexv8jkgIHBFN5T
+const GOOGLE_ID='741517036786-mad416oslcq5gmi8njbtie99uph8269m.apps.googleusercontent.com';
+const GOOGLE_SECRET='Ug8JhYp9cyexv8jkgIHBFN5T';
  /* TWITTER_KEY=
  * TWITTER_SECRET=
  /*
@@ -49,7 +49,7 @@ module.exports = () => {
     });
   }
 
-  if (process.env.GOOGLE_ID && process.env.GOOGLE_SECRET) {
+  if (GOOGLE_ID && GOOGLE_SECRET) {
     providers.push({
       providerName: "Google",
       providerOptions: {
@@ -57,8 +57,8 @@ module.exports = () => {
       },
       Strategy: require("passport-google-oauth").OAuth2Strategy,
       strategyOptions: {
-        clientID: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET
+        clientID: GOOGLE_ID,
+        clientSecret: GOOGLE_SECRET
       },
       getProfile(profile) {
         // Normalize profile into one with {id, name, email} keys
