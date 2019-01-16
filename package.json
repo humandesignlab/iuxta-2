@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "NODE_ENV=development node index.js",
     "build": "next build",
-    "start": "node index.js"
+    "start": "NODE_ENV=production node index.js"
   },
   "dependencies": {
     "apac": "^3.0.2",

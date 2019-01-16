@@ -9,7 +9,7 @@ require("dotenv").load();
 // Initialize Next.js
 const nextApp = next({
   dir: ".",
-  dev: process.env.NODE_ENV === "production"
+  dev: process.env.NODE_ENV === "development"
 });
 
 // Add next-auth to next app
