@@ -20,7 +20,9 @@ import ListTableModal from "./ListTableModal";
 class Content extends Component {
 	state = {
 		lookup: this.props.lookup,
-		thisMoment: moment().format("LLLL")
+		thisMoment: moment().format("LLLL"),
+		searchButtonLoading: false,
+		disabled: false
 	};
 	updateInputValue = evt => {
 		this.setState({
@@ -28,11 +30,15 @@ class Content extends Component {
 		});
 	};
 
-	handleSearchSubmit = () => {
-		this.props.stuffActions.fetchStuff(
+	handleSearchSubmit = async () => {
+		await this.setState({disabled: true});
+		await this.setState({searchButtonLoading: true});
+		await this.props.stuffActions.fetchStuff(
 			this.state.inputValue,
 			this.props.lookup
 		);
+		await this.setState({searchButtonLoading: false});
+		await this.setState({disabled: false});
 	};
 
 	updateLookupProps = async () => {
@@ -94,7 +100,7 @@ class Content extends Component {
 				onChange={this.updateInputValue}
 			>
 				<input />
-				<Button type="submit" onClick={this.handleSearchSubmit}>
+				<Button primary loading={this.state.searchButtonLoading} disabled={this.state.disabled} type="submit" onClick={this.handleSearchSubmit}>
 					Search
 				</Button>
 			</Input>
@@ -122,6 +128,7 @@ class Content extends Component {
 	};
 
 	render() {
+		console.log('this.props ', this.props);
 		return (
 			<Container
 				style={{ marginTop: "60px" }}

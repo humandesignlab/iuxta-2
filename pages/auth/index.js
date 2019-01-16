@@ -9,7 +9,8 @@ import {
   Form,
   Button,
   Grid,
-  Divider
+	Divider,
+	Icon
 } from "semantic-ui-react";
 
 export default class extends React.Component {
@@ -92,9 +93,9 @@ export default class extends React.Component {
             <Grid.Column>
               <Card className="centered">
                 <Card.Header textAlign="center">Sign In</Card.Header>
-                <Card.Content>
+                <Card.Content textAlign='center'>
                   <SignInButtons providers={this.props.providers} />
-                  <Form
+                  {/* <Form
                     id="signin"
                     method="post"
                     action="/auth/email/signin"
@@ -124,14 +125,14 @@ export default class extends React.Component {
                     >
                       Sign in with email
                     </Button>
-                  </Form>
+                  </Form> */}
                 </Card.Content>
               </Card>
-              <Container textAlign="center">
+              {/* <Container textAlign="center">
                 <Link href="/auth/credentials">
                   <a>Sign in with credentials</a>
                 </Link>
-              </Container>
+              </Container> */}
               <Divider />
               <Container textAlign="center">
                 <Link href="/">
@@ -209,14 +210,15 @@ export class SignInButtons extends React.Component {
       <React.Fragment>
         {Object.keys(this.props.providers).map((provider, i) => {
           return (
-            <p key={i}>
+            <Button basic color='blue' icon labelPosition='left' key={i}>
+						<Icon name='google' />
               <a
                 className="btn btn-block btn-outline-secondary"
                 href={this.props.providers[provider].signin}
               >
                 Sign in with {provider}
               </a>
-            </p>
+            </Button>
           );
         })}
       </React.Fragment>
