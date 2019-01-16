@@ -10,9 +10,6 @@
 		"EMAIL_PORT": "@iuxta-2-email-port",
 		"EMAIL_USERNAME": "@iuxta-2-email-username "
 	},
-	"alias": [
-		"iuxta-app2.now.sh"
-	],
 	"builds": [
 		{
 			"src": "package.json",
