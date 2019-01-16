@@ -1,7 +1,7 @@
 {
 	"version": 2,
 	"name": "nextjs",
-	"alias": ["iuxta-ap2.now.sh"],
+	"alias": ["iuxta-app2.now.sh"],
 	"builds": [
 			{ "src": "package.json", "use": "@now/next" }
 	]
