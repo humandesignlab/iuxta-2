@@ -10,12 +10,12 @@
  * Environment variables for this example:
  *
  * FACEBOOK_ID=
- * FACEBOOK_SECRET=
- * GOOGLE_ID=
- * GOOGLE_SECRET=
- * TWITTER_KEY=
+ * FACEBOOK_SECRET= */
+GOOGLE_ID=741517036786-mad416oslcq5gmi8njbtie99uph8269m.apps.googleusercontent.com
+GOOGLE_SECRET=Ug8JhYp9cyexv8jkgIHBFN5T
+ /* TWITTER_KEY=
  * TWITTER_SECRET=
- *
+ /*
  * If you wish, you can put these in a `.env` to seperate your environment
  * specific configuration from your code.
  **/
