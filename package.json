@@ -1,5 +1,8 @@
 {
-  "name": "iuxta-2",
+	"name": "iuxta-2",
+	"engines": {
+    "node": "10.15.0"
+  },
   "version": "2.0.0",
   "scripts": {
     "dev": "NODE_ENV=development node index.js",
