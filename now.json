@@ -1,6 +1,4 @@
 {
-	"version": 2,
-	"name": "nextjs",
 	"env": {
 		"MONGO_URI": "@iuxta-2-mongo-uri",
 		"GOOGLE_ID": "@iuxta-2-google-id",
@@ -9,11 +7,5 @@
 		"EMAIL_SERVER": "@iuxta-2-email-server",
 		"EMAIL_PORT": "@iuxta-2-email-port",
 		"EMAIL_USERNAME": "@iuxta-2-email-username"
-	},
-	"builds": [
-		{
-			"src": "package.json",
-			"use": "@now/next"
-		}
-	]
+	}
 }
