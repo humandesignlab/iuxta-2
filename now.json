@@ -11,11 +11,5 @@
 			"EMAIL_PORT": "@iuxta-2-email-port",
 			"EMAIL_USERNAME": "@iuxta-2-email-username"
 		}
-	},
-	"builds": [
-		{
-			"src": "package.json",
-			"use": "@now/next"
-		}
-	]
+	}
 }
