@@ -24,7 +24,8 @@ nextApp
     return nextAuth(nextApp, nextAuthOptions);
   })
   .then(response => {
-    console.log(`Ready on http://localhost:${process.env.PORT || 3000}`);
+		console.log(`Ready on http://localhost:${process.env.PORT || 3000}`);
+		console.log('process.env ', process.env);
   })
   .catch(err => {
     console.log("An error occurred, unable to start the server");
