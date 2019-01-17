@@ -3,10 +3,10 @@
  *
  * Environment variables for this example:
  *
- * PORT=3000
- * SERVER_URL=http://localhost:3000
- * MONGO_URI=mongodb://localhost:27017/my-database
- *
+ */ 
+const SERVER_URL='https://iuxta-app2.now.sh'
+const MONGO_URI='mongodb://iuxta-admin:S0f174m4n*@ds161183.mlab.com:61183/iuxta-db'
+ /*
  * If you wish, you can put these in a `.env` to seperate your environment
  * specific configuration from your code.
  **/
@@ -25,9 +25,9 @@ const MongoStore = require("connect-mongo")(expressSession);
 // If no store set, NextAuth defaults to using Express Sessions in-memory
 // session store (the fallback is intended as fallback for testing only).
 let sessionStore;
-if (process.env.MONGO_URI) {
+if (MONGO_URI) {
 	sessionStore = new MongoStore({
-		url: process.env.MONGO_URI,
+		url: MONGO_URI,
 		autoRemove: "interval",
 		autoRemoveInterval: 10, // Removes expired sessions every 10 minutes
 		collection: "sessions",
@@ -65,7 +65,7 @@ module.exports = () => {
 				// Used in callbak URLs and email sign in links. It will be auto
 				// generated if not specified, which may cause problems if your site
 				// uses multiple aliases (e.g. 'example.com and 'www.examples.com').
-				serverUrl: process.env.SERVER_URL || null,
+				serverUrl: SERVER_URL || null,
 				// Add an Express Session store.
 				expressSession: expressSession,
 				sessionStore: sessionStore,
