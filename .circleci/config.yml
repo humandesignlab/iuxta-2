@@ -4,6 +4,10 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:10.15.0
+    environment:
+      MONGO_URI: $MONGO_URI
+      GOOGLE_ID: $GOOGLE_ID
+      GOOGLE_SECRET: $GOOGLE_SECRET
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
