@@ -128,7 +128,6 @@ class Content extends Component {
 	};
 
 	render() {
-		console.log('this.props ', this.props);
 		return (
 			<Container
 				style={{ marginTop: "60px" }}

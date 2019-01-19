@@ -8,6 +8,7 @@ const initialState = {
 	userLists: []
 	
 };
+const apiServer = 'https://iuxta-api.herokuapp.com';
 
 export const actionTypes = {
   FETCH_STUFF: "FETCH_STUFF",
@@ -109,7 +110,7 @@ export const updateLookupProps = (lookupProps, stuffProps) => {
 export const fetchStuff = (termino, lookupProps) => {
   return async dispatch => {
     const searchResAm = await fetch(
-      `http://localhost:3030/api/am-item-search-multipage/?searchTerm=${termino}`
+      `${apiServer}/api/am-item-search-multipage/?searchTerm=${termino}`
     );
     const searchJsonAm = await searchResAm.json();
     const searchResult = await dispatch(
@@ -121,7 +122,7 @@ export const fetchStuff = (termino, lookupProps) => {
 export const fetchLists = (userId) => {
 	return async dispatch => {
 		const getLists = await fetch(
-			`http://localhost:3030/api/get-list/?usrId=${userId}`
+			`${apiServer}/api/get-list/?usrId=${userId}`
 		);
 		const listsJson = await getLists.json();
 		await dispatch(
@@ -134,7 +135,7 @@ export const updateListStuff = (termino, userListProps) => {
   return async dispatch => {
     console.log("termino ", termino);
     const updateResAm = await fetch(
-      `http://localhost:3030/api/am-item-lookup-asin?itemId=${termino}`
+      `${apiServer}/api/am-item-lookup-asin?itemId=${termino}`
     );
     const updateJsonAm = await updateResAm.json();
 
