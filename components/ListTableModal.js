@@ -46,7 +46,7 @@ class ListTableModal extends Component {
 			date: this.state.thisMoment,
 			listArray: this.props.lookup
 		};
-		axios.post(`${apiServer}/api/post-list`, newList)
+		axios.post(`${this.state.apiServer}/api/post-list`, newList)
 			.then(response => {
 				return response;
 			})
@@ -188,7 +188,7 @@ class ListTableModal extends Component {
 		});
 		const lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
 		await this.props.stuffActions.updateListStuff(lookupParams, this.props.userLists);
-		axios.post(`${apiServer}/api/update-list?listId=${this.props.listId}`, this.props.lookup)
+		axios.post(`${this.state.apiServer}/api/update-list?listId=${this.props.listId}`, this.props.lookup)
 			.then(response => {
 				return response;
 			})
