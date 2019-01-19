@@ -26,7 +26,8 @@ class ListTableModal extends Component {
 		modalOpen: false,
 		listData: [],
 		thisMoment: moment().format("LLLL"),
-		loaderActive: false
+		loaderActive: false,
+		apiServer: 'https://iuxta-api.herokuapp.com'
 	};
 
 	setName = evt => {
@@ -45,7 +46,7 @@ class ListTableModal extends Component {
 			date: this.state.thisMoment,
 			listArray: this.props.lookup
 		};
-		axios.post('http://localhost:3030/api/post-list', newList)
+		axios.post(`${apiServer}/api/post-list`, newList)
 			.then(response => {
 				return response;
 			})
@@ -187,7 +188,7 @@ class ListTableModal extends Component {
 		});
 		const lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
 		await this.props.stuffActions.updateListStuff(lookupParams, this.props.userLists);
-		axios.post(`http://localhost:3030/api/update-list?listId=${this.props.listId}`, this.props.lookup)
+		axios.post(`${apiServer}/api/update-list?listId=${this.props.listId}`, this.props.lookup)
 			.then(response => {
 				return response;
 			})
