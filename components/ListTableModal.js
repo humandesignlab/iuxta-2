@@ -188,7 +188,7 @@ class ListTableModal extends Component {
 		});
 		const lookupParams = JSON.stringify(asinArray).replace(/[\[\]"]+/g, "");
 		await this.props.stuffActions.updateListStuff(lookupParams, this.props.userLists);
-		axios.post(`${this.state.apiServer}/api/update-list?listId=${this.props.listId}`, this.props.lookup)
+		axios.post(`${this.state.apiServer}/api/update-list?listId=${this.props.listId}&timeStamp=${this.state.thisMoment}`, this.props.lookup)
 			.then(response => {
 				return response;
 			})
