@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node index.js",
     "build": "next build",
-    "start": "node index.js"
+    "start": "next build node index.js"
   },
   "dependencies": {
     "apac": "^3.0.2",
