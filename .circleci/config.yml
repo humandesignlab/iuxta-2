@@ -46,10 +46,10 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - next build
       - deploy:
           requires:
-            - build
+            - next build
           filters:
             branches:
               only: master
