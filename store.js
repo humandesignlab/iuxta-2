@@ -8,7 +8,8 @@ const initialState = {
 	userLists: []
 	
 };
-const apiServer = process.env.NODE_ENV !== 'development' ? 'https://iuxta-api.herokuapp.com' : 'http://localhost:3030';
+const apiServer = 'https://iuxta-api.herokuapp.com';
+
 export const actionTypes = {
   FETCH_STUFF: "FETCH_STUFF",
   RECEIVE_STUFF: "RECEIVE_STUFF",
