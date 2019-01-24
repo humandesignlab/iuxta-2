@@ -10,7 +10,8 @@ require("dotenv").load();
 const nextApp = next({
   dir: ".",
 	dev: process.env.NODE_ENV === "development",
-	start: process.env.NODE_ENV === "production"
+	start: process.env.NODE_ENV === "production",
+	port: process.env.PORT || 3000
 });
 
 // Add next-auth to next app
@@ -25,7 +26,7 @@ nextApp
     return nextAuth(nextApp, nextAuthOptions);
   })
   .then(response => {
-    console.log(`Ready on port: ${process.env.PORT || 3000}`);
+    console.log(`Ready on port: ${port}`);
   })
   .catch(err => {
     console.log("An error occurred, unable to start the server");
