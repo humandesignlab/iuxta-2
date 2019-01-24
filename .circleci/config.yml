@@ -23,7 +23,7 @@ jobs:
           - v1-dependencies-
 
       - run: npm install
-      - run: next build
+      - run: npm build
 
       - save_cache:
           paths:
