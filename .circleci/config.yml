@@ -23,6 +23,7 @@ jobs:
           - v1-dependencies-
 
       - run: npm install
+      - run: next build
 
       - save_cache:
           paths:
@@ -46,10 +47,10 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - next build
+      - build
       - deploy:
           requires:
-            - next build
+            - build
           filters:
             branches:
               only: master
