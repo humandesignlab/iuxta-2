@@ -24,6 +24,7 @@ nextApp
     return nextAuth(nextApp, nextAuthOptions);
   })
   .then(response => {
+		console.log('process.env.NODE_ENV ', process.env.NODE_ENV);
     console.log(`Ready on port: ${process.env.PORT || 3000}`);
   })
   .catch(err => {
