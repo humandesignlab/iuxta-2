@@ -13,7 +13,7 @@ const nextApp = next({
 	start: process.env.NODE_ENV === "production",
 	port: process.env.PORT || 3000
 });
-
+console.log('nextApp ', nextApp);
 // Add next-auth to next app
 nextApp
   .prepare()
